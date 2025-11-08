@@ -11,16 +11,17 @@ const App = () => {
   
   useEffect(() => {
     setarr(['/','*','+','-','7','8','9','%','4','5','6','(','1','2','3',')','0','.','=','c']);
-  },[])
+    console.log("arr set");
+  },[]);
 
   function eventhandler(key){
-    console.log(key);
+    // console.log(key);
     if(key === 'c'){
       setoperator('');
       setoutput('');
     }else if(key === '='){
       try {
-        const result = eval(operator);
+        const result = eval(output);
         setoutput(result.toString());
         setoperator(result.toString());
       } catch (error) {
@@ -33,7 +34,7 @@ const App = () => {
       setoutput(prevoperator);
     }else {
       const nextOperator = operator + key;
-      console.log(nextOperator)
+      // console.log(nextOperator)
       setoperator(nextOperator);
       setoutput(nextOperator);
     }
@@ -60,12 +61,7 @@ useEffect(()=>{
 
 
 function toggletheme(){
-  // settheme(prev => (prev =='light' ? 'dark' : 'light'));
-  if(theme=='light'){
-    settheme('dark');
-  }else{
-    settheme('light');
-  }
+  settheme(prev => (prev =='light' ? 'dark' : 'light'));
 }
 
 useEffect(() => {
@@ -97,7 +93,10 @@ useEffect(() => {
         </div>
         <div className="buttons">
           {arr.map((item,index)=>{
-            return <button id={item} key={index} onClick={(e)=>{eventhandler(e.target.id)}}>{item}</button>
+            return <button id={item} key={index}  onClick={(e)=>{
+              e.target.blur();
+              eventhandler(e.target.id);
+            }}>{item}</button>
           })}
         </div>
         <input className='theme' type="checkbox" onClick={toggletheme} name='Light'/>
